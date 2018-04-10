@@ -1,0 +1,333 @@
+1. 데이터베이스
+
+ 개념 : 조직에 필요한 정보로 구성된 연관 데이터 집합체
+
+
+-활용분야 : 생활과 문화, 비즈니스, 학술정보
+
+-특징 : 실시간 접근성(실시간성 서비스), 계속적인 변화(삽입, 삭제, 수정작업)
+        동시공유(다른 업무 또는 사용자에게 동시 공유)
+        효율적 접근이 가능하고 질의 기능 (질의 요청에 따른 결과 시현)
+
+
+- 데이터베이스 사용자 <=> 일반사용자, 프로그래머(일반사용자를 위한 데이터 관리하는 로직 개발), SQL사용자, 관리자
+
+  데이터베이스 시스템(DBMS,
+
+
+
+
+
+2. 데이터베이스 시스템의 발전
+
+3. 파일시스템과 DBMS 비교
+
+파일시스템 : CPU적음
+
+DBMS : CPU/주기억장치 기능이 큼, 실시간성 유지
+
+4. 데이터베이스 언어(SQL)
+
+데이터 정의 (DDL) : CREATE, ALTER, DROP
+데이터 조작 (DML) : SELECT, INSERT, DELETE, UPDATE
+데이터 제어 (DCL): GRANT, REVOKE, COMMIT, ROLLBACK
+데이터 추출 :
+
+5. 3단계 데이터베이스 구조 (내부/개념/외부 스키마)
+
+
+
+
+
+
+
+
+
+
+*ORACLE*       <<1521>> - 기본포트번호
+
+
+서버접속방법
+
+접속후 TNSNames Editor클릭
+
+ORCL(서버별칭) =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = SMART-05-HP(서버IP주소))(PORT = 1521(서버포트)))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl(데이터베이스 서비스 이름))
+    )
+  ) 
+
+MAIN_SERVER =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.110.111)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl)
+    )
+  )
+
+추가
+
+ok후에 데이터베이스에서 추가한 server를 선택후 위에 접속계정 정보를 입력한다. (kopo/kopo)
+
+입력후에 connect 클릭.
+
+
+select *  //*은 모든 것이라는 뜻
+from tabs 
+
+적고 ctrl+enter 누르기 =ediotr 탭에 execute statement 만 눌러도된다.
+
+//그러면 텝들에 있는 모든 데이터 내용을 알 수 있다.
+
+
+
+
+session 탭에 new connection 누르고 새로운 서버 추가가능
+
+SUB_SERVER =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.110.112)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl)
+    )
+  )
+
+
+
+
+
+ORCL(서버별칭) =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = SMART-05-HP(서버IP주소))(PORT = 1522(서버포트)))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = XE(데이터베이스 서비스 이름))
+    )
+  ) 
+
+
+==============================================================================================
+
+2018.03.13
+
+
+서버접속방법
+
+접속후 TNSNames Editor클릭
+
+ORCL(서버별칭) =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = SMART-05-HP(서버IP주소))(PORT = 1521(서버포트)))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl(데이터베이스 서비스 이름))
+    )
+  ) 
+
+
+
+MY_SERVER =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.110.5)(PORT = 1522))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = XE)
+    )
+  )
+
+추가
+
+
+ok후에 데이터베이스에서 추가한 server를 선택후 위에 접속계정 정보를 입력한다. 
+(SYSTEM/manager)
+
+입력후에 XE설정확인후 connect 클릭.
+
+
+MAIN_SERVER =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.110.111)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl)
+    )
+  )
+
+추가해서 접속해보기 ( 여기에 접속할 때는 kopo/kopo)로 접속해보기.
+
+--------------------------------------------------------------------------------------------
+
+
+// 테이블스페이스 생성
+CREATE TABLESPACE {테이블스페이스명}
+   DATAFILE {경로명} SIZE {사이즈}
+   AUTOEXTEND ON NEXT {추가확장 사이즈} MAXSIZE UNLIMITED
+   SEGMENT SPACE MANAGEMENT AUTO;
+
+CREATE TABLESPACE       TS_Chae01
+   DATAFILE ‘E:\oracle1\DATA\TS_CHAE_01.dbf’ SIZE 1024M
+   AUTOEXTEND ON NEXT 100M MAXSIZE UNLIMITED
+   SEGMENT SPACE MANAGEMENT AUTO;
+
+
+
+E:\oracle1\data 에 폴더 만들어 주고 위에 소스 실행하기 ( ctrl + enter) or editor execute statement F9
+
+그러면 파일이 추가된다.
+
+---------------------------------------------------------------------------------------------
+
+// 사용자 생성
+CREATE USER {사용자명}
+   IDENTIFIED BY {비밀번호}
+   DEFAULT TABLESPACE {테이블스페이스명}
+   TEMPORARY TABLESPACE {TEMP 테이블스페이스명}
+
+
+
+CREATE USER sechae
+                  IDENTIFIED BY        sechae
+                  DEFAULT TABLESPACE   TS_chae01
+                  TEMPORARY TABLESPACE TEMP;
+
+
+
+사용자를 생성해서 아까 생성한 파일에 연결시켜주기 ( 사용자가 그 파일에 접속할 수 있도록)
+
+
+제대로 됬는지 확인방법
+
+
+select * from dba_tablespaces;
+
+를 실행하면 확인할 수 있다.
+
+---------------------------------------------------------------------------------------------------
+
+
+// 권한 생성
+GRANT {권한#1}, {권한#2} TO HAITEAM;
+
+
+GRANT CONNECT, RESOURCE, DBA TO sechae;
+
+
+//권한 회수
+
+revoke connect from sechae;
+
+를 실행시켜주면 아까 생성한 사용자에게 권한을 줄수있다.
+
+
+-------------------------------------------------------------------------------------------
+
+다 한뒤에 다시 sechae/sechae 로 서버 접속해서 연결되면 성공
+
+
+
+
+
+=====================================================================================
+
+2018.03.20
+
+
+//테이블스페이스를 찾고 싶을 때,
+
+select * from dba_tablespaces; 
+
+
+//파일을 찾고 싶을 때,
+
+select * from dba_data_files;
+
+
+//테이블스페이스 삭제
+
+drop tablespace {테이블스페이스명}
+	including contents [and datafiles] cascade constraints;
+
+
+//사용자를 찾고 싶을 때,
+
+select * from dba_users;
+
+
+
+//사용자 비밀번호 변경 및 사용자 삭제
+
+alter user {사용자명}
+	identified by {바꿀 비밀번호}
+
+
+drop user {사용자명} cascade;
+
+
+
+-----------------------------------------------------------------------------------
+
+sehcae/ sechae 새로만든 사용자계정으로 들어감.
+
+
+
+//만들어져있는게 뭐있는지 확인
+
+select * from tabs; 
+
+
+
+//테이블 생성
+create table KOPO_PRODUCT_VOLUME
+(
+    regionid varchar(20 byte),
+    productgroup varchar(20 byte),
+    yearweek varchar(6 byte),
+    volume number
+)
+
+
+//테이블 생성확인
+
+select * from tabs; 
+
+
+
+
+//테이블 조회
+
+select * from kopo_product_volume;
+
+select {컬럼명}, {컬럼명} from kopo_product_volume;
+
+select regionid, productgroup, yearweek, volume from kopo_product_volume;
+
+
+
+
+//데이터 가져오기
+
+database => import => import table data 들어간 후,
+
+테이블 선택후 show
+
+next 누르고 저장된 파일 위치를 가져오기 
+( 파일 형식에 맞게 선택해주는 것이 중요!텍스트인지 엑셀인지)
+
+계속 next 누른 후에 마지막 쯤에 one commit...선택한 후 완료하기. 
+
+
+
+
+
+
+
+
+
+
+
+컬럼값에 null이 들어가는 것 : 도메인 무결성 제약조선

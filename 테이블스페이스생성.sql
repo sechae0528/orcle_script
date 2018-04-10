@@ -17,6 +17,12 @@ CREATE USER sechae
 select * from dba_tablespaces;
 
 
---유저에게 권한 주기
+--유저에게 권한 주기 GRANT {권한#1}, {권한#2} TO HAITEAM;
 
 GRANT CONNECT, RESOURCE, DBA TO sechae;
+
+
+
+--권한 회수
+
+revoke connect from sechae;
