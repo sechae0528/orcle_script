@@ -1,0 +1,129 @@
+
+
+F12 : 개발자도구
+
+
+*node js 다운로드
+
+
+
+
+
+*atom 다운로드
+
+atom setting 설정
+
+file => settings => install
+
+atom-beautify    : 사용법 - ctrl+alt+b
+color-picker
+emmet
+highlight-selected
+minimap
+minimap-highlight-selected
+pigments
+
+
+
+
+
+
+*mariadb 다운받기
+
+패스워드 : root/ root
+
+밑에 한글 체크하기
+
+
+
+열고 => 신규 => root 비밀번호 입력
+
+
+test -> 새로생성 -> 테이블 -> 이름에 employee -> 추가 \
+-> 
+no int
+name varchar
+저장
+
+쿼리에서
+
+insert into employee(no, name)
+values
+(1001, "홍길동"),
+(1002, "임꺽정")
+
+
+
+
+cmd창 관리자로 실행해서
+
+npm install --glob                                                                                                                                                                                                                                                                                                                                                                                                                        al --production windows-build-tools
+npm install node-gyp
+
+
+
+=====================================================================
+
+
+웹의 4가지 기능
+
+Create -insert
+Read -select
+Update -update
+Delete -delete
+
+
+
+heidiSQL을 켜서  test 쿼리에 
+
+
+#테이블생성(create)
+
+create table `news` (
+	`no` int,
+	`title` varchar(50),
+	`desc` longtext
+) 
+
+작성후 실행(실행버튼 또는 f9) 부분만 실행하고 싶으면 ctrl + f9
+
+
+-------------------------------------------------------------------
+
+
+#수정 (alter)
+
+만약 테이블 설정을 바꾸고 싶으면,
+
+
+alter table `news` 
+	change column `title` `title2` varchar(100)
+
+
+추가후에 선택할 부분만 선택해서 ctrl + F9 눌러주면 선택한 부분만 실행
+
+
+------------------------------------------------------------------------
+
+
+#삭제(drop)
+
+테이블 삭제하고 싶을 때는
+
+drop table `news` 실행하면 가능
+
+
+-----------------------------------------------------------------------------
+
+#insert
+
+
+테이블에 데이터 넣을 때 사용
+
+
+insert into `news` (`no`, `title`, `desc`)
+values
+(1, "아이폰 X 출시", "아이폰 X가 새롭게 출시되었습니다."),
+(2, "갤럭시 S9출시", "갤럭시 S9가 새롭게 출시되었습니다."),
+(3, "휘감아지는 고감도 투명센서", "휘감아지는 고감도 투명 터치센서가 출시되었습니다.")
+
