@@ -17,8 +17,9 @@ and PRODUCTGROUP = 'ST0001';
 SELECT PRODUCTGROUP from kopo_product_volume;
 
 
-
+------------------------------------------------------
 -- UNION 합집합 (컬럼정보가 같은 때만 합집합 가능)
+-------------------------------------------------------
 
 SELECT REGIONID, PRODUCTGROUP, YEARWEEK, VOLUME 
     FROM kopo_product_volume_A01
@@ -57,6 +58,7 @@ SELECT REGIONID, PRODUCTGROUP, YEARWEEK, QTY
 
 ---------------------------------------------------
 -- Expression 이용하기
+----------------------------------------------------
 --SELECT
 --   {Expression} AS {컬럼명},
 --   REGIONID
@@ -80,4 +82,50 @@ SELECT
     VOLUME
   FROM kopo_product_volume;
   
+
+-- EXPRESS 예제 : KOPO_PRODUCT_VOLUME 에서
+-- Expression을 활용하여
+--맨 앞에 MeasureID 이름의 컬럼으로 “KOPO_D510”
+--값이 생성되도록 조회하세요
+
+SELECT * FROM KOPO_PRODUCT_VOLUME;
   
+SELECT
+    'KOPO_D510' AS MEASUREID,
+    REGIONID,
+    PRODUCTGROUP,
+    YEARWEEK,
+    VOLUME,
+    CAST(YEARWEEK AS NUMBER) * VOLUME AS TEST14
+    FROM KOPO_PRODUCT_VOLUME;
+   
+
+----------------------------------------------------------
+-- 중복된 값 제거하기(DISTINCT)
+----------------------------------------------------------
+--SELECT
+--   DISTINCT {컬럼명}
+--FROM {테이블명}
+
+SELECT DISTINCT REGIONID, 
+                PRODUCTGROUP,
+                PRODUCT,
+                YEARWEEK,
+                YEAR,
+                WEEK,
+                QTY 
+    FROM KOPO_CHANNEL_SEASONALITY;
+
+-- DISTIONCT 예제
+-- 상품군(PRODUCTGROUP)에 대한 DISTINCT 구현 후
+--컬럼이름을 PRODUCT로 변경해보세요
+
+SELECT DISTINCT PRODUCTGROUP AS PRODUCT
+    FROM KOPO_PRODUCT_VOLUME;
+
+-------------------------------------------------------------
+-- 조건절(WHERE) 사용하기
+-------------------------------------------------------------
+-- SELECT {컬럼 리스트}
+-- FROM {테이블명}
+-- WHERE 조건절
