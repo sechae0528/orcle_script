@@ -50,7 +50,7 @@ create table `auth` (
 
 
 
--- 이름 재설정할 때,
+-- 테이블 이름 재설정할 때,
 
 rename table `member` to `member2`
 
