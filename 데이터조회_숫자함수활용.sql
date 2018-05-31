@@ -15,7 +15,7 @@
 -- MOD : 주어진 숫자를 나누기 한 후 나머지 값 출력함 (%)
 --               예 >  MOD(12,10) -> 2
 
--- POWER : 주어진 숫자1의 숫자2 승을 출력함 (제곱)
+-- POWER : 주어진 숫자1의 숫자 2승을 출력함 (제곱)
 --               예 >  POWER(3,2) -> 9
 -------------------------------------------------------------------------
 
@@ -139,3 +139,41 @@ SELECT
          WHEN QTY>1000 AND QTY <10000 THEN 10000
          ELSE 30000 END AS QTY
 FROM KOPO_CHANNEL_SEASONALITY_NEW;
+
+
+-------------------------------------------------------------------------
+-- DECODE 사용하기 (SWITCH)
+-------------------------------------------------------------------------
+-- SWITCH CASE 문
+--DECODE ( 컬럼명
+--               ,CASE#1, VALUE#1
+--               ,CASE#2, VALUE#2
+--               , OTHERS)
+-------------------------------------------------------------------------
+SELECT A.*
+       ,DECODE(A.GENDER
+                , 'Male',1
+                ,'Female',2
+                ,0) AS SORT_ORDER
+    FROM KOPO_CUSTOMERDATA A
+WHERE 1=1
+--AND GENDER not in ('Male','Female')
+ORDER BY SORT_ORDER;  
+
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+-- Decode 함수(switch와 비슷)     
+select A.*,
+    decode(A.gender, 'Male',1,'Female',2,0) as sort_order
+from kopo_customerdata A
+where 1=1
+order by sort_order;    
+
+
+-- 분모가 0인 경우 예외처리를 decode를 이용하여 해결한 문제
+select A.*,
+    DECODE(A.PREDICTION_QTY,0,0
+    ,0.5,'UNDEFINED'
+    ,(1-ABS(PREDICTION_QTY-REAL_QTY)/PREDICTION_QTY)) AS NEW_ACCURACY    
+from DT_RESULT_FINAL3 A; 
