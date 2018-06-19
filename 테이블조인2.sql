@@ -50,7 +50,7 @@ SELECT REGIONID,
 SELECT * FROM
 KOPO_CHANNEL_SEASONALITY_NEW
 WHERE 1=1
-AND REGIONID
+AND REGIONID;
 
 
-select * from kopo_product_mst;    
+SELECT * from kopo_product_mst;    

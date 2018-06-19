@@ -81,7 +81,7 @@ SELECT substr('201642',5,6) FROM DUAL;
 --FROM {테이블명}
 -------------------------------------------------------------------------
 SELECT 
-LPAD(PRODUCTGROUP, 10, '0')
+LPAD(PRODUCT, 10, '0')
 FROM KOPO_CHANNEL_SEASONALITY_NEW;
 
 
