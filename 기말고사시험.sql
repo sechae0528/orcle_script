@@ -3,8 +3,10 @@
 ---------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------
--- 1번
---(주차 != 53 AND 연도 >= 2015 AND 상품(PRODUCT1 및 PRODUCT2)
+-- 1번 [기본조회]kopo channel_seasonality_final 테이블에서 다음 조건을
+--      만족하는 테이블을 생성하세요
+--    (주차 != 53 AND 연도 >= 2015 AND 상품(PRODUCT1 및 PRODUCT2)
+-- KOPO_ST_이름_FINAL1 테이블로 생성하세요 (예: KOPO_ST_김효관_FINAL1)
 ---------------------------------------------------------------------------
 CREATE TABLE KOPO_ST_채성은_FINAL1 
 AS
@@ -14,23 +16,30 @@ SELECT REGIONID,
        QTY
 FROM kopo_channel_seasonality_final
 WHERE 1=1
-AND TO_NUMBER(SUBSTR(YEARWEEK,5,6)) != 53
-AND (SUBSTR(YEARWEEK,1,4))>= '2015'
-AND (PRODUCT = 'PRODUCT1' OR PRODUCT = 'PRODUCT2');
+AND SUBSTR(YEARWEEK,5,2) != 53
+AND SUBSTR(YEARWEEK,1,4) >= 2015
+AND PRODUCT IN ('PRODUCT1','PRODUCT2')
+-- 제외 사용시에는 PRODUCT NOT IN
+-- AND (PRODUCT = 'PRODUCT1' OR PRODUCT = 'PRODUCT2');
+ORDER BY REGIONID ASC, PRODUCT ASC, YEARWEEK ASC;
 
 ---------------------------------------------------------------------------
--- 2번
+-- 2번 [GROUP-BY]
+--   1번 결과 테이블에서 지역/상품별 평균판매량을 소수점 없이
+--   반올림하여 AVG_QTY 값을 산출한 후 KOPO_ST_이름_FINAL2 테이블로 생성하세요
 ---------------------------------------------------------------------------
 CREATE TABLE  KOPO_ST_채성은_FINAL2  
 AS
 SELECT REGIONID,
-        PRODUCT,
+       PRODUCT,
       ROUND(AVG(QTY),0) AS AVG_QTY
-FROM KOPO_ST_김효관_FINAL1
+FROM KOPO_ST_채성은_FINAL1
 GROUP BY REGIONID, PRODUCT;
 
 ---------------------------------------------------------------------------
--- 3번
+-- 3번 [JOIN] 1번결과 테이블을 기준으로 2번결과 테이블을 LEFT 조인하여
+--      [REGIONID, PRODUCT, YEARWEEK, QTY, AVG_QTY] 컬럼을 조회하여
+--      테이블을 생성하세요. (조인키는 REGIONID, PRODUCT)
 ---------------------------------------------------------------------------
 CREATE TABLE  KOPO_ST_채성은_FINAL3  
 AS
@@ -47,7 +56,7 @@ AND A.PRODUCT = B.PRODUCT;
 
 
 ---------------------------------------------------------------------------
--- 4번
+-- 4번 [단일행 함수]3번결과 테이블에서 QTY/AVG_QTY를 계산하여 RATIO
 ---------------------------------------------------------------------------
 CREATE TABLE  KOPO_ST_채성은_FINAL4  
 AS
@@ -56,7 +65,10 @@ SELECT REGIONID
        ,YEARWEEK
        ,QTY
        ,AVG_QTY
-       ,ROUND((QTY/AVG_QTY),2) AS RATIO
+      -- ,ROUND((QTY/AVG_QTY),2) AS RATIO
+       ,CASE WHEN AVG_QTY = 0
+                THEN 1
+            ELSE ROUND((QTY/AVG_QTY),2) END AS RATIO
 FROM KOPO_ST_채성은_FINAL3;
 
 
@@ -80,6 +92,13 @@ SELECT REGIONID
           )
 GROUP BY REGIONID,PRODUCT ,WEEK;
 
+-- 답안
+SELECT A.REGIONID
+       ,A.PRODUCT
+       ,SUBSTR(A.YEARWEEK,-2) AS WEEK       
+       ,ROUND(AVG(RATIO),2) AS RATIO
+    FROM KOPO_ST_채성은_FINAL4 A
+GROUP BY REGIONID,PRODUCT ,SUBSTR(A.YEARWEEK,-2);
 
 ---------------------------------------------------------------------------
 -- 6번
